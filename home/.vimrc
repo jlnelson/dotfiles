@@ -4,11 +4,6 @@
 "                        \ V /| | | | | | | | | (__
 "                       (_)_/ |_|_| |_| |_|_|  \___|
 "
-" Author: joe di castro <joe@joedicastro.com>
-" Source: http://github.com/joedicastro/dotfiles/tree/master/vim
-"
-" This file is under a lot of stress, it changes frequently, so it's better if
-" you watch the DVCS commits to stay in the loop.
 
 " Setup language {{{ ==========================================================
 
@@ -87,22 +82,11 @@ NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
 
 " Colorschemes {{{
 
+NeoBundle 'flazz/vim-colorschemes'
+
 " Dark themes
 " Improved terminal version of molokai, almost identical to the GUI one
-NeoBundle 'joedicastro/vim-molokai256'
-
-NeoBundle 'tomasr/molokai'
-NeoBundleLazy 'sjl/badwolf', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-NeoBundleLazy 'nielsmadan/harlequin', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-
-
-" Light themes
-NeoBundleLazy 'vim-scripts/summerfruit256.vim', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-NeoBundleLazy 'joedicastro/vim-github256', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
+NeoBundle 'jlnelson/vim-molokai256'
 
 " Make terminal themes from GUI themes
 NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
@@ -138,7 +122,7 @@ NeoBundle 'rking/ag.vim'
 " " Python {{{
 
 " " Autocompletion
-" NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neocomplete.vim'
 " " A Python plugin
 NeoBundle 'Yggdroot/indentLine'
 " " }}}
@@ -147,13 +131,17 @@ NeoBundle 'Yggdroot/indentLine'
 
 " Powerful and advanced Snippets tool
 NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
+
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 
 " }}}
 
 " Syntax {{{
 
 NeoBundleLazy 'mustache/vim-mustache-handlebars'
-" NeoBundleLazy 'elzr/vim-json', {'filetypes' : 'json'}
 NeoBundleLazy 'joedicastro/vim-pentadactyl', {
             \ 'autoload': {'filetypes': ['pentadactyl']}}
 NeoBundle 'scrooloose/syntastic'
@@ -519,7 +507,7 @@ set foldmethod=marker
 " Cut/Paste {{{
 
 " to/from the clipboard
-map <Leader>y "*y
+map <Leader>y :w !pbcopy<CR><CR>
 map <Leader>p "*p
 
 " toggle paste mode
@@ -777,8 +765,8 @@ noremap <Leader>dq :Gdiffoff<CR>
 " Gitv {{{
 
 nnoremap <silent> <leader>gv :Gitv --all<CR>
-nnoremap <silent> <leader>gV :Gitv! --all<CR>
-vnoremap <silent> <leader>gV :Gitv! --all<CR>
+nnoremap <silent> <leader>gV :Gitv! --merges<CR>
+vnoremap <silent> <leader>gV :Gitv! --merges<CR>
 
 let g:Gitv_OpenHorizontal = 'auto'
 let g:Gitv_WipeAllOnClose = 1
@@ -897,147 +885,18 @@ nmap <LocalLeader> [menu]
 " menus menu
 nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
 
-" files and dirs menu {{{
-let g:unite_source_menu_menus.files = {
-    \ 'description' : '          files & dirs
-        \                                          ⌘ [space]o',
-    \}
-let g:unite_source_menu_menus.files.command_candidates = [
-    \['▷ open file                                                  ⌘ ,o',
-        \'Unite -start-insert file'],
-    \['▷ open more recently used files                              ⌘ ,m',
-        \'Unite file_mru'],
-    \['▷ open file with recursive search                            ⌘ ,O',
-        \'Unite -start-insert file_rec/async'],
-    \['▷ edit new file',
-        \'Unite file/new'],
-    \['▷ search directory',
-        \'Unite directory'],
-    \['▷ search recently used directories',
-        \'Unite directory_mru'],
-    \['▷ search directory with recursive search',
-        \'Unite directory_rec/async'],
-    \['▷ make new directory',
-        \'Unite directory/new'],
-    \['▷ change working directory',
-        \'Unite -default-action=lcd directory'],
-    \['▷ know current working directory',
-        \'Unite output:pwd'],
-    \['▷ junk files                                                 ⌘ ,d',
-        \'Unite junkfile/new junkfile'],
-    \['▷ save as root                                               ⌘ :w!!',
-        \'exe "write !sudo tee % >/dev/null"'],
-    \['▷ quick save                                                 ⌘ ,w',
-        \'normal ,w'],
-    \['▷ open ranger                                                ⌘ ,x',
-        \'call RangerChooser()'],
-    \['▷ open vimfiler                                              ⌘ ,X',
-        \'VimFiler'],
-    \]
-nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
-            \ menu:files<CR>
-" }}}
-
-" file searching menu {{{
-let g:unite_source_menu_menus.grep = {
-    \ 'description' : '           search files
-        \                                          ⌘ [space]a',
-    \}
-let g:unite_source_menu_menus.grep.command_candidates = [
-    \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
-        \'Unite -no-quit grep'],
-    \['▷ find',
-        \'Unite find'],
-    \['▷ locate',
-        \'Unite -start-insert locate'],
-    \['▷ vimgrep (very slow)',
-        \'Unite vimgrep'],
-    \]
-nnoremap <silent>[menu]a :Unite -silent menu:grep<CR>
-" }}}
-
-" buffers, tabs & windows menu {{{
-let g:unite_source_menu_menus.navigation = {
-    \ 'description' : '     navigate by buffers, tabs & windows
-        \                   ⌘ [space]b',
-    \}
-let g:unite_source_menu_menus.navigation.command_candidates = [
-    \['▷ buffers                                                    ⌘ ,b',
-        \'Unite buffer'],
-    \['▷ tabs                                                       ⌘ ,B',
-        \'Unite tab'],
-    \['▷ windows',
-        \'Unite window'],
-    \['▷ location list',
-        \'Unite location_list'],
-    \['▷ quickfix',
-        \'Unite quickfix'],
-    \['▷ resize windows                                             ⌘ C-C C-W',
-        \'WinResizerStartResize'],
-    \['▷ new vertical window                                        ⌘ ,v',
-        \'vsplit'],
-    \['▷ new horizontal window                                      ⌘ ,h',
-        \'split'],
-    \['▷ close current window                                       ⌘ ,k',
-        \'close'],
-    \['▷ toggle quickfix window                                     ⌘ ,q',
-        \'normal ,q'],
-    \['▷ zoom                                                       ⌘ ,z',
-        \'ZoomWinTabToggle'],
-    \['▷ delete buffer                                              ⌘ ,K',
-        \'bd'],
-    \]
-nnoremap <silent>[menu]b :Unite -silent menu:navigation<CR>
-" }}}
-
 " buffer internal searching menu {{{
 let g:unite_source_menu_menus.searching = {
     \ 'description' : '      searchs inside the current buffer
         \                     ⌘ [space]f',
     \}
 let g:unite_source_menu_menus.searching.command_candidates = [
-    \['▷ search line                                                ⌘ ,f',
-        \'Unite -auto-preview -start-insert line'],
-    \['▷ search word under the cursor                               ⌘ [space]8',
-        \'UniteWithCursorWord -no-split -auto-preview line'],
-    \['▷ search outlines & tags (ctags)                             ⌘ ,t',
-        \'Unite -vertical -winwidth=40 -direction=topleft -toggle outline'],
-    \['▷ search marks',
-        \'Unite -auto-preview mark'],
-    \['▷ search folds',
-        \'Unite -vertical -winwidth=30 -auto-highlight fold'],
     \['▷ search changes',
         \'Unite change'],
-    \['▷ search jumps',
-        \'Unite jump'],
     \['▷ search undos',
-        \'Unite undo'],
-    \['▷ search tasks                                               ⌘ ,;',
-        \'Unite -toggle grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
+        \'Unite undo']
     \]
 nnoremap <silent>[menu]f :Unite -silent menu:searching<CR>
-" }}}
-
-" yanks, registers & history menu {{{
-let g:unite_source_menu_menus.registers = {
-    \ 'description' : '      yanks, registers & history
-        \                            ⌘ [space]i',
-    \}
-let g:unite_source_menu_menus.registers.command_candidates = [
-    \['▷ yanks                                                      ⌘ ,i',
-        \'Unite history/yank'],
-    \['▷ commands       (history)                                   ⌘ q:',
-        \'Unite history/command'],
-    \['▷ searches       (history)                                   ⌘ q/',
-        \'Unite history/search'],
-    \['▷ registers',
-        \'Unite register'],
-    \['▷ messages',
-        \'Unite output:messages'],
-    \['▷ undo tree      (gundo)                                     ⌘ ,u',
-        \'GundoToggle'],
-    \]
-nnoremap <silent>[menu]i :Unite -silent menu:registers<CR>
 " }}}
 
 " spelling menu {{{
@@ -1070,24 +929,10 @@ let g:unite_source_menu_menus.text = {
 let g:unite_source_menu_menus.text.command_candidates = [
     \['▷ toggle search results highlight                            ⌘ ,eq',
         \'set invhlsearch'],
-    \['▷ toggle line numbers                                        ⌘ ,l',
-        \'call ToggleRelativeAbsoluteNumber()'],
     \['▷ toggle wrapping                                            ⌘ ,ew',
         \'call ToggleWrap()'],
     \['▷ show hidden chars                                          ⌘ ,eh',
         \'set list!'],
-    \['▷ toggle fold                                                ⌘ /',
-        \'normal za'],
-    \['▷ open all folds                                             ⌘ zR',
-        \'normal zR'],
-    \['▷ close all folds                                            ⌘ zM',
-        \'normal zM'],
-    \['▷ copy to the clipboard                                      ⌘ ,y',
-        \'normal ,y'],
-    \['▷ paste from the clipboard                                   ⌘ ,p',
-        \'normal ,p'],
-    \['▷ toggle paste mode                                          ⌘ ,P',
-        \'normal ,P'],
     \['▷ remove trailing whitespaces                                ⌘ ,et',
         \'normal ,et'],
     \['▷ text statistics                                            ⌘ ,es',
@@ -1100,38 +945,6 @@ let g:unite_source_menu_menus.text.command_candidates = [
         \'normal ga'],
     \]
 nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
-" }}}
-
-" neobundle menu {{{
-let g:unite_source_menu_menus.neobundle = {
-    \ 'description' : '      plugins administration with neobundle
-        \                 ⌘ [space]n',
-    \}
-let g:unite_source_menu_menus.neobundle.command_candidates = [
-    \['▷ neobundle',
-        \'Unite neobundle'],
-    \['▷ neobundle log',
-        \'Unite neobundle/log'],
-    \['▷ neobundle lazy',
-        \'Unite neobundle/lazy'],
-    \['▷ neobundle update',
-        \'Unite neobundle/update'],
-    \['▷ neobundle search',
-        \'Unite neobundle/search'],
-    \['▷ neobundle install',
-        \'Unite neobundle/install'],
-    \['▷ neobundle check',
-        \'Unite -no-empty output:NeoBundleCheck'],
-    \['▷ neobundle docs',
-        \'Unite output:NeoBundleDocs'],
-    \['▷ neobundle clean',
-        \'NeoBundleClean'],
-    \['▷ neobundle list',
-        \'Unite output:NeoBundleList'],
-    \['▷ neobundle direct edit',
-        \'NeoBundleExtraEdit'],
-    \]
-nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
 " }}}
 
 " git menu {{{
@@ -1198,24 +1011,6 @@ let g:unite_source_menu_menus.code = {
         \                                            ⌘ [space]p',
     \}
 let g:unite_source_menu_menus.code.command_candidates = [
-    \['▷ run with python2 in tmux panel             (vimux)         ⌘ ,rr',
-        \'normal ,rr'],
-    \['▷ run with python3 in tmux panel             (vimux)         ⌘ ,r3',
-        \'normal ,r3'],
-    \['▷ run with python2 & time in tmux panel      (vimux)         ⌘ ,rt',
-        \'normal ,rt'],
-    \['▷ run with pypy & time in tmux panel         (vimux)         ⌘ ,rp',
-        \'normal ,rp'],
-    \['▷ command prompt to run in a tmux panel      (vimux)         ⌘ ,rc',
-        \'VimuxPromptCommand'],
-    \['▷ repeat last command                        (vimux)         ⌘ ,rl',
-        \'VimuxRunLastCommand'],
-    \['▷ stop command execution in tmux panel       (vimux)         ⌘ ,rs',
-        \'VimuxInterruptRunner'],
-    \['▷ inspect tmux panel                         (vimux)         ⌘ ,ri',
-        \'VimuxInspectRunner'],
-    \['▷ close tmux panel                           (vimux)         ⌘ ,rq',
-        \'VimuxCloseRunner'],
     \['▷ syntastic toggle                           (syntastic)',
         \'SyntasticToggleMode'],
     \['▷ syntastic check                            (syntastic)',
@@ -1230,120 +1025,6 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'IndentLinesToggle'],
     \]
 nnoremap <silent>[menu]p :Unite -silent -winheight=42 menu:code<CR>
-" }}}
-
-" markdown menu {{{
-let g:unite_source_menu_menus.markdown = {
-    \ 'description' : '       preview markdown extra docs
-        \                           ⌘ [space]k',
-    \}
-let g:unite_source_menu_menus.markdown.command_candidates = [
-    \['▷ preview',
-        \'Me'],
-    \['▷ refresh',
-        \'Mer'],
-    \]
-nnoremap <silent>[menu]k :Unite -silent menu:markdown<CR>
-" }}}
-
-" bookmarks menu {{{
-let g:unite_source_menu_menus.bookmarks = {
-    \ 'description' : '      bookmarks
-        \                                             ⌘ [space]m',
-    \}
-let g:unite_source_menu_menus.bookmarks.command_candidates = [
-    \['▷ open bookmarks',
-        \'Unite bookmark:*'],
-    \['▷ add bookmark',
-        \'UniteBookmarkAdd'],
-    \]
-nnoremap <silent>[menu]m :Unite -silent menu:bookmarks<CR>
-" }}}
-
-" colorv menu {{{
-function! GetColorFormat()
-    let formats = {'r' : 'RGB',
-                  \'n' : 'NAME',
-                  \'s' : 'HEX',
-                  \'ar': 'RGBA',
-                  \'pr': 'RGBP',
-                  \'pa': 'RGBAP',
-                  \'m' : 'CMYK',
-                  \'l' : 'HSL',
-                  \'la' : 'HSLA',
-                  \'h' : 'HSV',
-                  \}
-    let formats_menu = ["\n"]
-    for [k, v] in items(formats)
-        call add(formats_menu, "  ".k."\t".v."\n")
-    endfor
-    let fsel = get(formats, input('Choose a format: '.join(formats_menu).'? '))
-    return fsel
-endfunction
-
-function! GetColorMethod()
-    let methods = {
-                   \'h' : 'Hue',
-                   \'s' : 'Saturation',
-                   \'v' : 'Value',
-                   \'m' : 'Monochromatic',
-                   \'a' : 'Analogous',
-                   \'3' : 'Triadic',
-                   \'4' : 'Tetradic',
-                   \'n' : 'Neutral',
-                   \'c' : 'Clash',
-                   \'q' : 'Square',
-                   \'5' : 'Five-Tone',
-                   \'6' : 'Six-Tone',
-                   \'2' : 'Complementary',
-                   \'p' : 'Split-Complementary',
-                   \'l' : 'Luma',
-                   \'g' : 'Turn-To',
-                   \}
-    let methods_menu = ["\n"]
-    for [k, v] in items(methods)
-        call add(methods_menu, "  ".k."\t".v."\n")
-    endfor
-    let msel = get(methods, input('Choose a method: '.join(methods_menu).'? '))
-    return msel
-endfunction
-
-let g:unite_source_menu_menus.colorv = {
-    \ 'description' : '         color management
-        \                                      ⌘ [space]c',
-    \}
-let g:unite_source_menu_menus.colorv.command_candidates = [
-    \['▷ open colorv                                                ⌘ ,cv',
-        \'ColorV'],
-    \['▷ open colorv with the color under the cursor                ⌘ ,cw',
-        \'ColorVView'],
-    \['▷ preview colors                                             ⌘ ,cpp',
-        \'ColorVPreview'],
-    \['▷ color picker                                               ⌘ ,cd',
-        \'ColorVPicker'],
-    \['▷ edit the color under the cursor                            ⌘ ,ce',
-        \'ColorVEdit'],
-    \['▷ edit the color under the cursor (and all the concurrences) ⌘ ,cE',
-        \'ColorVEditAll'],
-    \['▷ insert a color                                             ⌘ ,cii',
-        \'exe "ColorVInsert " .GetColorFormat()'],
-    \['▷ color list relative to the current                         ⌘ ,cgh',
-        \'exe "ColorVList " .GetColorMethod() "
-        \ ".input("number of colors? (optional): ")
-        \ " ".input("number of steps?  (optional): ")'],
-    \['▷ show colors list (Web W3C colors)                          ⌘ ,cn',
-        \'ColorVName'],
-    \['▷ choose color scheme (ColourLovers, Kuler)                  ⌘ ,css',
-        \'ColorVScheme'],
-    \['▷ show favorite color schemes                                ⌘ ,csf',
-        \'ColorVSchemeFav'],
-    \['▷ new color scheme                                           ⌘ ,csn',
-        \'ColorVSchemeNew'],
-    \['▷ create hue gradation between two colors',
-        \'exe "ColorVTurn2 " " ".input("Color 1 (hex): ")
-        \" ".input("Color 2 (hex): ")'],
-    \]
-nnoremap <silent>[menu]c :Unite -silent menu:colorv<CR>
 " }}}
 
 " vim menu {{{
@@ -1397,9 +1078,9 @@ let g:unite_winheight = 15
 let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
 let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
-let g:unite_source_buffer_time_format = '(%d-%m-%Y %H:%M:%S) '
-let g:unite_source_file_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
-let g:unite_source_directory_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
+let g:unite_source_buffer_time_format = '(%m-%d-%Y %H:%M:%S) '
+let g:unite_source_file_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
+let g:unite_source_directory_mru_time_format = '(%m-%d-%Y %H:%M:%S) '
 let g:unite_source_rec_async_command= 'ag --nocolor --nogroup --hidden -g ""'
 
 if executable('ag')
@@ -1418,18 +1099,6 @@ let g:junkfile#directory=expand($HOME."/.vim/tmp/junk")
 
 " }}}
 
-" Utl {{{
-
-map <Leader>j :Utl <CR><Bar>:redraw!<CR>
-
-let g:utl_cfg_hdl_scm_http_system = "silent !firefox %u &"
-let g:utl_cfg_hdl_mt_application_pdf = 'silent :!zathura %p &'
-let g:utl_cfg_hdl_mt_image_jpeg = 'silent :!sxiv %p &'
-let g:utl_cfg_hdl_mt_image_gif = 'silent :!sxiv %p &'
-let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
-
-" }}}
-
 " VimFiler {{{
 
 nnoremap <silent><Leader>X :VimFiler<CR>
@@ -1445,25 +1114,8 @@ let g:vimfiler_readonly_file_icon = '✗'
 
 let g:vimfiler_force_overwrite_statusline = 0
 
-let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
+let g:vimfiler_time_format = '%m-%d-%Y %H:%M:%S'
 let g:vimfiler_data_directory = $HOME.'/.vim/tmp/vimfiler'
-
-" }}}
-
-" vimux {{{
-
-let g:VimuxUseNearestPane = 1
-
-map <Leader>rr :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;python2 '.bufname("%"))<CR>
-map <Leader>r3 :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;python3 '.bufname("%"))<CR>
-map <Leader>rt :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;time python2 '.bufname("%"))<CR>
-map <Leader>rp :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;time pypy '.bufname("%"))<CR>
-
-map <Leader>rc :VimuxPromptCommand<CR>
-map <Leader>rl :VimuxRunLastCommand<CR>
-map <Leader>rs :VimuxInterruptRunner<CR>
-map <Leader>ri :VimuxInspectRunner<CR>
-map <Leader>rq :VimuxCloseRunner<CR>
 
 " }}}
 
@@ -1496,48 +1148,13 @@ map <Leader>z :ZoomWinTabToggle<CR>
 
 " FILETYPES  {{{ ==============================================================
 
-" DJANGO HTML (Templates) {{{
-
-au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
-
-" }}}
-
 " JSON {{{ -------------------------------------------------------------------
 
 autocmd BufNewFile,BufRead *.json set ft=javascript
+" NeoBundleLazy 'elzr/vim-json', {'filetypes' : 'json'}
 
-augroup javascript_autocmd
-  autocmd!
-  autocmd FileType javascript set autoindent
-  autocmd FileType javascript set formatoptions=tcq2l
-  autocmd FileType javascript set textwidth=78 shiftwidth=4
-  autocmd FileType javascript set softtabstop=4 tabstop=4
-  autocmd FileType javascript set expandtab
-  autocmd FileType javascript set foldmethod=syntax
-augroup END
+let g:vim_json_syntax_conceal = 0
 
-" }}}
-"
-" Javascript {{{ -------------------------------------------------------------------
-
-" autocmd BufNewFile,BufRead *.json set ft=javascript
-autocmd BufNewFile,BufRead *.json set ft=json
-
-augroup json_autocmd
-  autocmd FileType json set foldmethod=syntax
-augroup END
-
-" }}}
-
-" LUA {{{
-
-au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
-
-" }}}
-
-" PYTHON {{{
-
-au FileType python setlocal foldlevel=1000
 
 " }}}
 
@@ -1576,5 +1193,3 @@ command SBlame call s:svnBlame()
                                                  
 
 " }}}
-
-" vim:foldmethod=marker

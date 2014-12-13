@@ -13,6 +13,8 @@ fi
 alias ls='ls -G'
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export EDITOR=vim
+export VISUAL=vim
 
 
 function runAndReturn() {
@@ -49,3 +51,7 @@ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 if [[ -s "${ZDOTDIR:-$HOME}/.zshcustomrc" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshcustomrc"
 fi
+
+function gi() {
+    curl -L -s https://www.gitignore.io/api/$@
+}
