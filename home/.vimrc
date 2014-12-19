@@ -449,6 +449,12 @@ nnoremap <Leader>h <C-w>s
 
 " }}}
 
+" Use ctrl-g to move to markers {{{
+
+nnoremap <C-g> `
+
+" }}}
+
 " Fast window moves {{{
 
 nnoremap <C-h> <C-w>h
