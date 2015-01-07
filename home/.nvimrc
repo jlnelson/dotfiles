@@ -7,8 +7,6 @@
 
 " Plugins (administrated by vim-plug) {{{
 call plug#begin('~/.nvim/plugged')
-Plug 'Shougo/vimproc'
-Plug 'Shougo/vimfiler'
 Plug 'Shougo/junkfile.vim'
 Plug 'jlnelson/vim-molokai256'
 Plug 'airblade/vim-gitgutter'
@@ -22,6 +20,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
 Plug 'simnalamburt/vim-mundo', { 'on': 'GundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'kshenoy/vim-signature'
@@ -42,10 +41,9 @@ call plug#end()
 
 " VIM Setup {{{ ===============================================================
 
-" <Leader> & <LocalLeader> mapping {{{
+" <Leader> mapping {{{
 
 let mapleader=' '
-let maplocalleader= '\'
 
 " }}}
 
@@ -277,8 +275,8 @@ set foldmethod=marker
 
 " Toggle folding
 
-" nnoremap \ za
-" vnoremap \ za
+nnoremap \ za
+vnoremap \ za
 
 " }}}
 
@@ -497,6 +495,11 @@ let g:indentLine_color_term = 239
 
 " }}}
 
+" junkfile {{{
+
+map <silent> <Leader>j :JunkfileOpen<CR><CR>
+" }}}
+
 " Syntastic {{{
 
 nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
@@ -511,26 +514,6 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
-
-" }}}
-
-" VimFiler {{{
-
-nnoremap <silent><Leader>X :VimFiler<CR>
-
-let g:vimfiler_as_default_explorer = 1
-
-let g:vimfiler_tree_leaf_icon = '├'
-let g:vimfiler_tree_opened_icon = '┐'
-let g:vimfiler_tree_closed_icon = '─'
-let g:vimfiler_file_icon = '┄'
-let g:vimfiler_marked_file_icon = '✓'
-let g:vimfiler_readonly_file_icon = '✗'
-
-let g:vimfiler_force_overwrite_statusline = 0
-
-let g:vimfiler_time_format = '%m-%d-%Y %H:%M:%S'
-let g:vimfiler_data_directory = $HOME.'/.vim/tmp/vimfiler'
 
 " }}}
 
@@ -567,16 +550,6 @@ augroup END
 
 " }}}
 
-" Vinarise {{{
-
-map <F6> :Vinarise<CR>
-
-let g:vinarise_enable_auto_detect = 1
-
-au FileType vinarise let g:airline_section_warning = ''
-
-" }}}
-
 " winresizer {{{
 
 let g:winresizer_start_key = '<C-C><C-W>'
@@ -599,38 +572,7 @@ map <Leader>z :ZoomWinTabToggle<CR>
 " JSON {{{ -------------------------------------------------------------------
 
 autocmd BufNewFile,BufRead *.json set ft=javascript
-" NeoBundleLazy 'elzr/vim-json', {'filetypes' : 'json'}
-
-let g:vim_json_syntax_conceal = 0
-
 
 " }}}
 
 " END FILETYPES }}}
-
-" Other Customizations {{{ ====================================================
-
-function s:svnBlame()
-    let line = line(".")
-    setlocal nowrap
-    create a new window at the left-hand side
-    aboveleft 18vnew
-    " blame, ignoring white space changes
-    %!svn blame -x-w "#"
-    setlocal nomodified readonly buftype=nofile nowrap
-    winwidth=1
-    setlocal nonumber
-    if has('&relativenumber') | setlocal
-        norelativenumber | endif
-    " return to original line
-    exec "normal " . line . "G"
-    " synchronize scrolling, and return to
-
-    wincmd p
-    setlocal scrollbind
-    syncbind
-endfunction
-command SBlame call s:svnBlame()
-                                                 
-
-" }}}
