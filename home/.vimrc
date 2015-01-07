@@ -208,9 +208,6 @@ NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
 NeoBundleLazy 'othree/html5.vim', {'autoload':
             \ {'filetypes': ['html', 'xhttml', 'css']}}
 
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
-
 NeoBundle 'kchmck/vim-coffee-script',{'autoload' : {
             \ 'commands' : [
                              \ 'CoffeeCompile', 'CoffeeLint', 'CoffeeMake',
@@ -235,7 +232,7 @@ NeoBundle 'jimsei/winresizer'
 " Tmux {{{
 
 " Easily interacts with Tmux from Vim
-" NeoBundle 'benmills/vimux'
+NeoBundle 'benmills/vimux'
 " Tmux config file syntax
 " NeoBundleLazy 'vimez/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
 
@@ -341,7 +338,7 @@ set noswapfile
 set backupdir=$HOME/.vim/tmp/backup/
 set undodir=$HOME/.vim/tmp/undo/
 set directory=$HOME/.vim/tmp/swap/
-set viminfo+=n$HOME/.vim/tmp/viminfo
+set viminfo+=n$HOME/.vim/tmp/viminfo,'50
 
 " make this dirs if no exists previously
 silent! call MakeDirIfNoExists(&undodir)
@@ -518,6 +515,8 @@ map <Leader>p "*p
 
 " toggle paste mode
 map <Leader>P :set invpaste<CR>
+
+map <Leader>yv `[v`]
 
 " }}}
 
@@ -1125,6 +1124,39 @@ let g:vimfiler_data_directory = $HOME.'/.vim/tmp/vimfiler'
 
 " }}}
 
+" Vimux {{{
+
+" Grunt dist
+map <Leader>vg :call VimuxRunCommand("grunt dist")<CR>
+
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+
+" Inspect runner pane
+map <Leader>vi :VimuxInspectRunner<CR>
+
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>vq :VimuxCloseRunner<CR>
+
+" Interrupt any command running in the runner pane
+map <Leader>vx :VimuxInterruptRunner<CR>
+
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <Leader>vz :call VimuxZoomRunner()<CR>
+
+" Close Runner on Vim exit
+
+augroup closeVimux
+    autocmd!
+    "executes the command on quit
+    autocmd VimLeave * :VimuxCloseRunner
+augroup END
+
+" }}}
+
 " Vinarise {{{
 
 map <F6> :Vinarise<CR>
@@ -1168,12 +1200,6 @@ let g:vim_json_syntax_conceal = 0
 
 " Other Customizations {{{ ====================================================
 
-let s:vimcustomfile = $HOME.'/.vim/custom.vim'
-
-if filereadable(s:vimcustomfile)
-    exec 'source '.s:vimcustomfile
-endif
-
 function s:svnBlame()
     let line = line(".")
     setlocal nowrap
@@ -1189,8 +1215,7 @@ function s:svnBlame()
     " return to original line
     exec "normal " . line . "G"
     " synchronize scrolling, and return to
-    original window
-    setlocal scrollbind
+
     wincmd p
     setlocal scrollbind
     syncbind
