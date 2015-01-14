@@ -30,7 +30,7 @@ Plug 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 Plug 'kana/vim-textobj-line' " al, il
 Plug 'kana/vim-textobj-underscore' " a_, i_
 Plug 'kana/vim-textobj-user'
-Plug 'joedicastro/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'kchmck/vim-coffee-script'
 Plug 'bling/vim-airline'
 Plug 'vim-scripts/zoomwintab.vim'
@@ -407,6 +407,13 @@ nnoremap Y y$
 " END VIM SETUP }}}
 
 " PLUGINS Setup {{{ ===========================================================
+
+" Ag {{{
+
+nmap <Leader>a :Ag 
+vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
+
+" }}}
 
 " Airline {{{
 
