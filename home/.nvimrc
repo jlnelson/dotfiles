@@ -9,6 +9,7 @@
 call plug#begin('~/.nvim/plugged')
 Plug 'Shougo/junkfile.vim'
 Plug 'jlnelson/vim-molokai256'
+Plug 'kien/ctrlp.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'rking/ag.vim'
 Plug 'Yggdroot/indentLine'
@@ -340,6 +341,7 @@ if exists('$TMUX')
   function! TmuxOrSplitSwitch(wincmd, tmuxdir)
     let previous_winnr = winnr()
     execute "wincmd " . a:wincmd
+    echo a:wincmd
     if previous_winnr == winnr()
       " The sleep and & gives time to get back to vim so tmux's focus tracking
       " can kick in and send us our ^[[O
@@ -448,6 +450,15 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
 augroup END
+
+" }}}
+
+" Ctrl-P {{{
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]((\.(git|hg|svn))|node_modules)$',
+  \ 'file': '\v\.(exe|so|dll)$'
+  \ }
 
 " }}}
 
