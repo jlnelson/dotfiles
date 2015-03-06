@@ -68,14 +68,20 @@ nmap <silent><Leader>tw :call ToggleWrap()<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
-map <Leader>y :w !pbcopy<CR><CR>
-map <Leader>z :ZoomWinTabToggle<CR>
-
+map <Leader>y "*y
 nnoremap <silent><Leader>K :bd<CR>
 map <silent> <Leader>L :IndentLinesToggle<CR>
 nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 map <Leader>P :set invpaste<CR>
 nnoremap <Leader>Z :qa!<CR>
+
+" OSX keybindings {{{
+
+if os == "Darwin"
+    map <Leader>y :w !pbcopy<CR><CR>
+endif
+
+" OSX KEYBINDINGS }}}
 
 " Fugitive {{{
 
