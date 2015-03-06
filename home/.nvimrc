@@ -40,13 +40,90 @@ Plug 'benmills/vimux'
 call plug#end()
 " END BUNDLES }}}
 
-" VIM Setup {{{ ===============================================================
-
-" <Leader> mapping {{{
-
+" VIM KEYBINDINGS {{{ ===============================================================
+"
 let mapleader=' '
 
+nmap <Leader>a :Ag 
+vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
+nmap <Leader>c <Plug>CommentaryLine
+xmap <Leader>c <Plug>Commentary
+noremap <Leader>du :diffupdate<CR>
+nmap <silent><Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <Leader>h <C-w>s
+map <silent> <Leader>j :JunkfileOpen<CR><CR>
+nnoremap <Leader>k <C-w>c
+map <Leader>p "*p
+nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
+map <Leader>rw :WinResizerStartResize<CR>
+nmap <Leader>th :set list!<CR>
+nnoremap <silent><Leader>tl :call ToggleRelativeAbsoluteNumber()<CR>
+map <silent><Leader>ts :set invhlsearch<CR>
+nmap <silent><Leader>tw :call ToggleWrap()<CR>
+nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>v <C-w>v
+nmap <silent> <Leader>w :update<CR>
+map <Leader>y :w !pbcopy<CR><CR>
+map <Leader>z :ZoomWinTabToggle<CR>
+
+nnoremap <silent><Leader>K :bd<CR>
+map <silent> <Leader>L :IndentLinesToggle<CR>
+nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
+map <Leader>P :set invpaste<CR>
+nnoremap <Leader>Z :qa!<CR>
+
+" Fugitive {{{
+
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>go :Gread<CR>
+nnoremap <Leader>gR :Gremove<CR>
+nnoremap <Leader>gm :Gmove<Space>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gB :Gbrowse<CR>
+nnoremap <Leader>gp :Git! push<CR>
+nnoremap <Leader>gP :Git! pull<CR>
+nnoremap <Leader>gi :Git!<Space>
+nnoremap <Leader>ge :Gedit<CR>
+nnoremap <Leader>gE :Gedit<Space>
+
+nnoremap <Leader>ggc :silent! Ggrep -i<Space>
+
+" for the diffmode
+noremap <Leader>dq :Gdiffoff<CR>
+
 " }}}
+
+" Vimux {{{
+
+" Grunt dist
+map <Leader>vg :call VimuxRunCommand("grunt dist")<CR>
+
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+
+" Inspect runner pane
+map <Leader>vi :VimuxInspectRunner<CR>
+
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>vq :VimuxCloseRunner<CR>
+
+" Interrupt any command running in the runner pane
+map <Leader>vx :VimuxInterruptRunner<CR>
+
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <Leader>vz :call VimuxZoomRunner()<CR>
+
+" }}}
+
+" END KEYBINDINGS }}}
+
+" VIM Setup {{{ ===============================================================
 
 " Basic options {{{
 
@@ -171,8 +248,6 @@ function! ToggleWrap()
     endif
 endfunction
 
-nmap <silent><Leader>ew :call ToggleWrap()<CR>
-
 " }}}
 
 " Ok, a vim for men, get off the cursor keys {{{
@@ -213,13 +288,6 @@ au VimResized * exe "normal! \<c-w>="
 
 " }}}
 
-" New windows {{{
-
-nnoremap <Leader>v <C-w>v
-nnoremap <Leader>h <C-w>s
-
-" }}}
-
 " Use ctrl-g to move to markers {{{
 
 nnoremap <C-g> `
@@ -235,16 +303,8 @@ nnoremap <C-l> <C-w>l
 
 " }}}
 
-" Fast window & buffer close and kill {{{
-
-nnoremap <Leader>k <C-w>c
-nnoremap <silent><Leader>K :bd<CR>
-
-" }}}
-
 " Toggle line numbers {{{
 
-nnoremap <silent><Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
 function! ToggleRelativeAbsoluteNumber()
   if !&number && !&relativenumber
       set number
@@ -265,7 +325,6 @@ endfunction
 
 " Show hidden chars {{{
 
-nmap <Leader>eh :set list!<CR>
 set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 
 " }}}
@@ -281,32 +340,9 @@ vnoremap \ za
 
 " }}}
 
-" Cut/Paste {{{
-
-" to/from the clipboard
-map <Leader>y :w !pbcopy<CR><CR>
-map <Leader>p "*p
-
-" toggle paste mode
-map <Leader>P :set invpaste<CR>
-
-" }}}
-
 " Save as root {{{
 
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
-
-" }}}
-
-" Quick saving {{{
-
-nmap <silent> <Leader>w :update<CR>
-
-" }}}
-
-" Delete trailing whitespaces {{{
-
-nmap <silent><Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " }}}
 
@@ -324,14 +360,6 @@ function! s:QuickfixToggle()
     copen
 endfunction
 command! ToggleQuickfix call <SID>QuickfixToggle()
-
-nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
-
-" }}}
-
-" Toggle the search results highlighting {{{
-
-map <silent><Leader>eq :set invhlsearch<CR>
 
 " }}}
 
@@ -362,12 +390,6 @@ else
   map <C-k> <C-w>k
   map <C-l> <C-w>l
 endif
-
-" }}}
-
-" Quick exiting without save {{{
-
-nnoremap <Leader>Z :qa!<CR>
 
 " }}}
 
@@ -410,13 +432,6 @@ nnoremap Y y$
 
 " PLUGINS Setup {{{ ===========================================================
 
-" Ag {{{
-
-nmap <Leader>a :Ag 
-vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
-
-" }}}
-
 " Airline {{{
 
 set noshowmode
@@ -433,16 +448,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 
 " }}}
 
-" CoffeeScript {{{
-
-map <Leader>rw :CoffeeWatch vert<CR>
-
-" }}}
-
 " Commentary {{{ -------------------------------------------------------------
-
-nmap <Leader>c <Plug>CommentaryLine
-xmap <Leader>c <Plug>Commentary
 
 augroup plugin_commentary
     au!
@@ -470,35 +476,12 @@ let delimitMate_expand_space = 1
 
 " Fugitive {{{
 
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>go :Gread<CR>
-nnoremap <Leader>gR :Gremove<CR>
-nnoremap <Leader>gm :Gmove<Space>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gB :Gbrowse<CR>
-nnoremap <Leader>gp :Git! push<CR>
-nnoremap <Leader>gP :Git! pull<CR>
-nnoremap <Leader>gi :Git!<Space>
-nnoremap <Leader>ge :Gedit<CR>
-nnoremap <Leader>gE :Gedit<Space>
-
-nnoremap <Leader>ggc :silent! Ggrep -i<Space>
-
-" for the diffmode
-noremap <Leader>du :diffupdate<CR>
-
 if !exists(":Gdiffoff")
     command Gdiffoff diffoff | q | Gedit
 endif
-noremap <Leader>dq :Gdiffoff<CR>
 " }}}
 
 " Gundo {{{ ------------------------------------------------------------------
-
-nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
 
@@ -506,21 +489,13 @@ let g:gundo_preview_bottom = 1
 
 " indentLine {{{
 
-map <silent> <Leader>L :IndentLinesToggle<CR>
 let g:indentLine_enabled = 1
 let g:indentLine_char = '┊'
 let g:indentLine_color_term = 239
 
 " }}}
 
-" junkfile {{{
-
-map <silent> <Leader>j :JunkfileOpen<CR><CR>
-" }}}
-
 " Syntastic {{{
-
-nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 
 let g:syntastic_python_pylint_exe = "pylint2"
 let g:syntastic_mode_map = { 'mode': 'active',
@@ -536,28 +511,7 @@ let g:syntastic_style_warning_symbol  = '⚡'
 " }}}
 
 " Vimux {{{
-
-" Grunt dist
-map <Leader>vg :call VimuxRunCommand("grunt dist")<CR>
-
-" Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
-
-" Run last command executed by VimuxRunCommand
-map <Leader>vl :VimuxRunLastCommand<CR>
-
-" Inspect runner pane
-map <Leader>vi :VimuxInspectRunner<CR>
-
-" Close vim tmux runner opened by VimuxRunCommand
-map <Leader>vq :VimuxCloseRunner<CR>
-
-" Interrupt any command running in the runner pane
-map <Leader>vx :VimuxInterruptRunner<CR>
-
-" Zoom the runner pane (use <bind-key> z to restore runner pane)
-map <Leader>vz :call VimuxZoomRunner()<CR>
-
+"
 " Close Runner on Vim exit
 
 augroup closeVimux
@@ -574,12 +528,6 @@ let g:winresizer_start_key = '<C-C><C-W>'
 " cancelar pulsando ESC
 " let g:winresizer_finish_with_escape = 1
 let g:winresizer_keycode_finish = 27
-
-" }}}
-
-" zoomwintab {{{
-
-map <Leader>z :ZoomWinTabToggle<CR>
 
 " }}}
 
