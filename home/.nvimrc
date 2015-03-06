@@ -5,6 +5,10 @@
 "                       (_)_/ |_|_| |_| |_|_|  \___|
 "
 
+" Check OS {{{
+let os = substitute(system('uname'), "\n", "", "")
+" END CHECKOS }}}
+
 " Plugins (administrated by vim-plug) {{{
 call plug#begin('~/.nvim/plugged')
 Plug 'Shougo/junkfile.vim'
@@ -22,6 +26,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-fugitive'
 Plug 'simnalamburt/vim-mundo', { 'on': 'GundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'kshenoy/vim-signature'
