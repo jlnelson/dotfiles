@@ -49,12 +49,13 @@ call plug#end()
 "
 let mapleader=' '
 
-nmap <Leader>a :Ag 
+nmap <Leader>a :Ag
 vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
-nmap <silent><Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+tnoremap <silent><esc> <C-\><C-n>
+nnoremap <Leader>s :term<CR>
 nnoremap <Leader>h <C-w>s
 map <silent> <Leader>j :JunkfileOpen<CR><CR>
 nnoremap <Leader>k <C-w>c
@@ -73,6 +74,7 @@ nnoremap <silent><Leader>K :bd<CR>
 map <silent> <Leader>L :IndentLinesToggle<CR>
 nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 map <Leader>P :set invpaste<CR>
+nnoremap <Leader>z :ZoomWinTabToggle<CR>
 nnoremap <Leader>Z :qa!<CR>
 
 " OSX keybindings {{{
@@ -150,7 +152,6 @@ set go-=rRlLbh                  " hide all the scrollbars
 set visualbell                  " turn on the visual bell
 set cursorline                  " highlight the line under the cursor
 set fillchars+=vert:│           " better looking for windows separator
-set ttyfast                     " better screen redraw
 set title                       " set the terminal title to the current file
 set showcmd                     " shows partial commands
 set hidden                      " hide the inactive buffers
@@ -279,11 +280,7 @@ inoremap <right> <nop>
 syntax enable                  " enable the syntax highlight
 set background=dark            " set a dark background
 set t_Co=256                   " 256 colors for the terminal
-if has('gui_running')
-    colorscheme molokai
-else
-    colorscheme molokai256
-endif
+colorscheme molokai256
 
 " }}}
 

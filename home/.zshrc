@@ -11,6 +11,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 alias ls='ls -G'
+alias tmux='tmux -2'
+alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export EDITOR=vim
@@ -55,3 +57,7 @@ fi
 function gi() {
     curl -L -s https://www.gitignore.io/api/$@
 }
+
+tic $HOME/.$TERM.ti
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
