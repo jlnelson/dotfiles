@@ -201,10 +201,10 @@ endfunction
 
 set backup
 set noswapfile
-set backupdir=$HOME/.nvim/tmp/backup/
-set undodir=$HOME/.nvim/tmp/undo/
-set directory=$HOME/.nvim/tmp/swap/
-set viminfo+=n$HOME/.nvim/tmp/viminfo
+set backupdir=$HOME/.config/nvim/tmp/backup/
+set undodir=$HOME/.config/nvim/tmp/undo/
+set directory=$HOME/.config/nvim/tmp/swap/
+set viminfo+=n$HOME/.config/nvim/tmp/viminfo
 
 " make this dirs if no exists previously
 silent! call MakeDirIfNoExists(&undodir)
