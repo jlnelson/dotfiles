@@ -15,8 +15,8 @@ alias tmux='tmux -2'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export EDITOR=vim
-export VISUAL=vim
+export EDITOR=nvim
+export VISUAL=nvim
 
 
 function runAndReturn() {

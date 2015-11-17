@@ -17,7 +17,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'rking/ag.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'Raimondi/delimitMate'
@@ -76,6 +76,9 @@ nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 map <Leader>P :set invpaste<CR>
 nnoremap <Leader>z :ZoomWinTabToggle<CR>
 nnoremap <Leader>Z :qa!<CR>
+nnoremap <Leader>eu :EnableUltiSnips<CR>
+
+command! -nargs=0 -bar EnableUltiSnips call plug#load('ultisnips')
 
 " OSX keybindings {{{
 
@@ -450,7 +453,9 @@ let g:airline_powerline_fonts=1
 let g:airline_detect_whitespace = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
-" let g:airline#extensions#tabline#enabled = 2
+let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
 " let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#buffer_min_count = 1
 
