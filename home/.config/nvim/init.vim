@@ -54,6 +54,8 @@ vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
+nnoremap <Leader>eu :EnableUltiSnips<CR>
+nnoremap <Leader>ev :e $MYVIMRC<CR>
 tnoremap <silent><esc> <C-\><C-n>
 nnoremap <Leader>s :term<CR>
 nnoremap <Leader>h <C-w>s
@@ -63,6 +65,7 @@ map <Leader>p "*p
 nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 map <Leader>rw :WinResizerStartResize<CR>
 nmap <Leader>th :set list!<CR>
+map <silent> <Leader>ti :IndentLinesToggle<CR>
 nnoremap <silent><Leader>tl :call ToggleRelativeAbsoluteNumber()<CR>
 map <silent><Leader>ts :set invhlsearch<CR>
 nmap <silent><Leader>tw :call ToggleWrap()<CR>
@@ -71,12 +74,10 @@ nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
 map <Leader>y "*y
 nnoremap <silent><Leader>K :bd<CR>
-map <silent> <Leader>L :IndentLinesToggle<CR>
 nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 map <Leader>P :set invpaste<CR>
 nnoremap <Leader>z :ZoomWinTabToggle<CR>
 nnoremap <Leader>Z :qa!<CR>
-nnoremap <Leader>eu :EnableUltiSnips<CR>
 
 command! -nargs=0 -bar EnableUltiSnips call plug#load('ultisnips')
 
@@ -448,9 +449,8 @@ nnoremap Y y$
 set noshowmode
 
 let g:airline_theme='powerlineish'
-let g:airline_enable_branch=1
 let g:airline_powerline_fonts=1
-let g:airline_detect_whitespace = 1
+let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
 let g:airline#extensions#tabline#enabled = 1
@@ -484,6 +484,7 @@ let g:ctrlp_custom_ignore = {
 " delimitmate {{{
 
 let delimitMate_expand_space = 1
+let delimitMate_expand_cr = 1
 
 " }}}
 
