@@ -27,7 +27,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive'
-Plug 'simnalamburt/vim-mundo', { 'on': 'GundoToggle' }
+Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'kshenoy/vim-signature'
 Plug 'kana/vim-textobj-entire' " ae, ie
@@ -38,10 +38,10 @@ Plug 'kana/vim-textobj-underscore' " a_, i_
 Plug 'kana/vim-textobj-user'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kchmck/vim-coffee-script'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoomwintab.vim'
 Plug 'jimsei/winresizer'
-Plug 'benmills/vimux'
 call plug#end()
 " END BUNDLES }}}
 
@@ -69,7 +69,7 @@ map <silent> <Leader>ti :IndentLinesToggle<CR>
 nnoremap <silent><Leader>tl :call ToggleRelativeAbsoluteNumber()<CR>
 map <silent><Leader>ts :set invhlsearch<CR>
 nmap <silent><Leader>tw :call ToggleWrap()<CR>
-nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
 map <Leader>y "*y
@@ -110,31 +110,6 @@ nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
 " for the diffmode
 noremap <Leader>dq :Gdiffoff<CR>
-
-" }}}
-
-" Vimux {{{
-
-" Grunt dist
-map <Leader>vg :call VimuxRunCommand("grunt dist")<CR>
-
-" Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
-
-" Run last command executed by VimuxRunCommand
-map <Leader>vl :VimuxRunLastCommand<CR>
-
-" Inspect runner pane
-map <Leader>vi :VimuxInspectRunner<CR>
-
-" Close vim tmux runner opened by VimuxRunCommand
-map <Leader>vq :VimuxCloseRunner<CR>
-
-" Interrupt any command running in the runner pane
-map <Leader>vx :VimuxInterruptRunner<CR>
-
-" Zoom the runner pane (use <bind-key> z to restore runner pane)
-map <Leader>vz :call VimuxZoomRunner()<CR>
 
 " }}}
 
@@ -448,7 +423,7 @@ nnoremap Y y$
 
 set noshowmode
 
-let g:airline_theme='powerlineish'
+let g:airline_theme='wombat'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
@@ -495,9 +470,9 @@ if !exists(":Gdiffoff")
 endif
 " }}}
 
-" Gundo {{{ ------------------------------------------------------------------
+" Mundo {{{ ------------------------------------------------------------------
 
-let g:gundo_preview_bottom = 1
+let g:mundo_preview_bottom = 1
 
 " }}}
 
@@ -521,18 +496,6 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
-
-" }}}
-
-" Vimux {{{
-"
-" Close Runner on Vim exit
-
-augroup closeVimux
-    autocmd!
-    "executes the command on quit
-    autocmd VimLeave * :VimuxCloseRunner<CR>
-augroup END
 
 " }}}
 
