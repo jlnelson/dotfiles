@@ -72,7 +72,7 @@ nmap <silent><Leader>tw :call ToggleWrap()<CR>
 nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
-map <Leader>y "*y
+map <Leader>y :'<,'>w !xclip -sel clip<CR><CR>
 nnoremap <silent><Leader>K :bd<CR>
 nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
 map <Leader>P :set invpaste<CR>

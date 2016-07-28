@@ -10,7 +10,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias ls='ls -G'
+alias ls='ls -G --color=always'
 alias tmux='tmux -2'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
@@ -61,3 +61,5 @@ function gi() {
 tic $HOME/.$TERM.ti
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export NVM_DIR="/home/john/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
