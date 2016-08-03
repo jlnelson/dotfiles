@@ -29,7 +29,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive'
 Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'tpope/vim-characterize'
-Plug 'kshenoy/vim-signature'
+Plug 'othree/yajs.vim'
+
 Plug 'kana/vim-textobj-entire' " ae, ie
 Plug 'kana/vim-textobj-indent' " ai, ii, aI, iI
 Plug 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
@@ -42,6 +43,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoomwintab.vim'
 Plug 'jimsei/winresizer'
+Plug 'clavery/vim-dwre'
 call plug#end()
 " END BUNDLES }}}
 
@@ -142,6 +144,8 @@ set backspace=indent,eol,start  " defines the backspace key behavior
 set virtualedit=all             " to edit where there is no actual character
 set relativenumber
 set number
+au BufWritePre * :set binary | set noeol
+au BufWritePost * :set nobinary | set eol
 
 " }}}
 
@@ -213,7 +217,7 @@ set autoindent                 " set on the auto-indent
 
 " set formatoptions=qrn1ct
 "set textwidth=80
-set colorcolumn=81
+set colorcolumn=121
 
 function! ToggleWrap()
     let s:nowrap_cc_bg = [22, '#005f00']
