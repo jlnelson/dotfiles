@@ -39,6 +39,7 @@ Plug 'kana/vim-textobj-underscore' " a_, i_
 Plug 'kana/vim-textobj-user'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kchmck/vim-coffee-script'
+Plug 'StanAngeloff/php.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoomwintab.vim'
@@ -51,8 +52,10 @@ call plug#end()
 "
 let mapleader=' '
 
-nmap <Leader>a :Ag
+nmap <Leader>a :Ag 
 vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>l <C-^>
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
@@ -214,6 +217,7 @@ set tabstop=4                  " a tab = four spaces
 set shiftwidth=4               " number of spaces for auto-indent
 set softtabstop=4              " a soft-tab of four spaces
 set autoindent                 " set on the auto-indent
+set nowrap
 
 " set formatoptions=qrn1ct
 "set textwidth=80
@@ -432,7 +436,7 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 " let g:airline#extensions#tabline#fnamemod = ':t'
@@ -457,6 +461,8 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]((\.(git|hg|svn))|node_modules)$',
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
+
+let g:ctrlp_user_command = 'ag %s -U -g ".*"'  
 
 " }}}
 
@@ -495,6 +501,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': [],
             \ 'passive_filetypes': ['python'] }
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_php = ['php', 'phpmd', 'phpcs']
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'

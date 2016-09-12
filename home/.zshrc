@@ -10,9 +10,14 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-alias ls='ls -G --color=always'
+alias ls='ls -G'
+alias d="docker"
+alias dc='docker-compose'
+alias dm='docker-machine'
 alias tmux='tmux -2'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
+alias vim='nvim'
+alias vi='nvim'
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export EDITOR=nvim
@@ -57,6 +62,10 @@ fi
 function gi() {
     curl -L -s https://www.gitignore.io/api/$@
 }
+
+setopt IGNORE_EOF
+set -o ignoreeof
+bindkey '^D' beep
 
 tic $HOME/.$TERM.ti
 
