@@ -20,6 +20,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/syntastic'
+Plug 'godlygeek/tabular'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -30,6 +31,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'othree/yajs.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'fatih/vim-go'
 
 Plug 'kana/vim-textobj-entire' " ae, ie
 Plug 'kana/vim-textobj-indent' " ai, ii, aI, iI
@@ -39,12 +42,13 @@ Plug 'kana/vim-textobj-underscore' " a_, i_
 Plug 'kana/vim-textobj-user'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kchmck/vim-coffee-script'
+Plug 'leafgarland/typescript-vim'
 Plug 'StanAngeloff/php.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoomwintab.vim'
 Plug 'jimsei/winresizer'
-Plug 'clavery/vim-dwre'
+Plug 'noahfrederick/vim-composer'
 call plug#end()
 " END BUNDLES }}}
 
@@ -61,6 +65,7 @@ xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
 nnoremap <Leader>eu :EnableUltiSnips<CR>
 nnoremap <Leader>ev :e $MYVIMRC<CR>
+nnoremap <Leader>f <Plug>(composer-find)
 tnoremap <silent><esc> <C-\><C-n>
 nnoremap <Leader>s :term<CR>
 nnoremap <Leader>h <C-w>s
@@ -79,7 +84,7 @@ nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
 map <Leader>y :'<,'>w !xclip -sel clip<CR><CR>
 nnoremap <silent><Leader>K :bd<CR>
-nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
+nmap <silent><Leader>N :SyntasticToggleMode<CR>
 map <Leader>P :set invpaste<CR>
 nnoremap <Leader>z :ZoomWinTabToggle<CR>
 nnoremap <Leader>Z :qa!<CR>
@@ -147,8 +152,6 @@ set backspace=indent,eol,start  " defines the backspace key behavior
 set virtualedit=all             " to edit where there is no actual character
 set relativenumber
 set number
-au BufWritePre * :set binary | set noeol
-au BufWritePost * :set nobinary | set eol
 
 " }}}
 
@@ -422,6 +425,22 @@ endif
 nnoremap Y y$
 
 " }}}
+"
+" Strikethrough {{{
+
+
+" modify selected text using combining diacritics
+command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
+command! -range -nargs=0 Underline       call s:CombineSelection(<line1>, <line2>, '0332')
+command! -range -nargs=0 DoubleUnderline call s:CombineSelection(<line1>, <line2>, '0333')
+command! -range -nargs=0 Strikethrough   call s:CombineSelection(<line1>, <line2>, '0336')
+
+function! s:CombineSelection(line1, line2, cp)
+  execute 'let char = "\u'.a:cp.'"'
+  execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
+endfunction
+
+" }}}
 
 " END VIM SETUP }}}
 
@@ -462,7 +481,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
 
-let g:ctrlp_user_command = 'ag %s -U -g ".*"'  
+let g:ctrlp_user_command = 'ag %s -g ".*"'  
 
 " }}}
 
@@ -501,7 +520,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': [],
             \ 'passive_filetypes': ['python'] }
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_php = ['php', 'phpmd', 'phpcs']
+let g:syntastic_php_checkers = ['php']
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -519,6 +538,15 @@ let g:winresizer_keycode_finish = 27
 
 " }}}
 
+" tabular {{{
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
+
+" }}}
+
+" vimgo {{{
+" }}}
 " END PLUGINS SETUP }}}
 
 " FILETYPES  {{{ ==============================================================
@@ -526,6 +554,8 @@ let g:winresizer_keycode_finish = 27
 " JSON {{{ -------------------------------------------------------------------
 
 autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.ds set ft=javascript
+autocmd BufNewFile,BufRead *.isml set ft=html
 
 " }}}
 
