@@ -17,7 +17,7 @@ fi
 # Editors
 #
 
-export EDITOR='nano'
+export EDITOR='nvim'
 export VISUAL='nano'
 export PAGER='less'
 
@@ -75,3 +75,5 @@ if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
 
+export BLUEACORN_BOOTSTRAP_DIR="/Users/johnnelson/.blueacorn/bootstrap"
+export BLUEACORN_PROJ_DIR="/Users/johnnelson/.blueacorn"

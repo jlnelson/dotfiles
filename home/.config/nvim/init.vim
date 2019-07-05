@@ -17,8 +17,9 @@ Plug 'kien/ctrlp.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'rking/ag.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'SirVer/ultisnips', { 'on': [] }
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'jlnelson/sfcc-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'godlygeek/tabular'
 Plug 'Raimondi/delimitMate'
@@ -56,6 +57,7 @@ call plug#end()
 "
 let mapleader=' '
 
+map <Leader>0 :WinResizerStartResize<CR>
 nmap <Leader>a :Ag 
 vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -73,11 +75,16 @@ map <silent> <Leader>j :JunkfileOpen<CR><CR>
 nnoremap <Leader>k <C-w>c
 map <Leader>p "*p
 nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
-map <Leader>rw :WinResizerStartResize<CR>
+map <Leader>r cw<C-r>0<ESC>
 nmap <Leader>th :set list!<CR>
 map <silent> <Leader>ti :IndentLinesToggle<CR>
 nnoremap <silent><Leader>tl :call ToggleRelativeAbsoluteNumber()<CR>
 map <silent><Leader>ts :set invhlsearch<CR>
+nnoremap <leader>tc :if exists("g:syntax_on") <Bar>
+	\   syntax off <Bar>
+	\ else <Bar>
+	\   syntax enable <Bar>
+	\ endif <CR>
 nmap <silent><Leader>tw :call ToggleWrap()<CR>
 nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <Leader>v <C-w>v
@@ -152,6 +159,7 @@ set backspace=indent,eol,start  " defines the backspace key behavior
 set virtualedit=all             " to edit where there is no actual character
 set relativenumber
 set number
+set nofixendofline
 
 " }}}
 
@@ -267,7 +275,8 @@ inoremap <right> <nop>
 
 " Colorscheme {{{
 
-syntax enable                  " enable the syntax highlight
+syntax on                  " enable the syntax highlight
+set synmaxcol=250
 set background=dark            " set a dark background
 set t_Co=256                   " 256 colors for the terminal
 colorscheme molokai256
@@ -519,13 +528,21 @@ let g:syntastic_python_pylint_exe = "pylint2"
 let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': [],
             \ 'passive_filetypes': ['python'] }
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_php_checkers = ['php']
 
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_javascript_eslint_exe = 'eslint'
 
 " }}}
 
@@ -547,6 +564,13 @@ vmap a- :Tabularize /-><CR>
 
 " vimgo {{{
 " }}}
+
+" UltiSnips {{{
+
+let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
+
+" }}}
+
 " END PLUGINS SETUP }}}
 
 " FILETYPES  {{{ ==============================================================
@@ -556,6 +580,18 @@ vmap a- :Tabularize /-><CR>
 autocmd BufNewFile,BufRead *.json set ft=javascript
 autocmd BufNewFile,BufRead *.ds set ft=javascript
 autocmd BufNewFile,BufRead *.isml set ft=html
+
+" }}}
+
+" JS {{{ -------------------------------------------------------------------
+
+autocmd FileType js UltiSnipsAddFiletypes javascript_sfcc
+
+" }}}
+
+" YAML {{{ -------------------------------------------------------------------
+
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " }}}
 
