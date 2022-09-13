@@ -50,6 +50,10 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 " END BUNDLES }}}
 
@@ -58,24 +62,25 @@ call plug#end()
 let mapleader=' '
 
 map <Leader>0 :WinResizerStartResize<CR>
-nmap <Leader>a :Ag 
+nnoremap <leader>a <cmd>Telescope live_grep<cr>
 vnoremap <Leader>a "zy:<C-u>Ag <C-r>z<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
 nnoremap <Leader>l <C-^>
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
 nnoremap <Leader>eu :EnableUltiSnips<CR>
 nnoremap <Leader>ev :e $MYVIMRC<CR>
-nnoremap <Leader>f <Plug>(composer-find)
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>g <cmd>Telescope git_files<cr>
 tnoremap <silent><esc> <C-\><C-n>
-nnoremap <Leader>s :term<CR>
 nnoremap <Leader>h <C-w>s
 map <silent> <Leader>j :JunkfileOpen<CR><CR>
 nnoremap <Leader>k <C-w>c
 map <Leader>p "*p
 nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 map <Leader>r cw<C-r>0<ESC>
+nnoremap <Leader>s :term<CR>
 nmap <Leader>th :set list!<CR>
 map <silent> <Leader>ti :IndentLinesToggle<CR>
 nnoremap <silent><Leader>tl :call ToggleRelativeAbsoluteNumber()<CR>
