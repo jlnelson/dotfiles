@@ -14,12 +14,11 @@ call plug#begin('~/.nvim/plugged')
 Plug 'Shougo/junkfile.vim'
 Plug 'jlnelson/vim-molokai256'
 Plug 'kien/ctrlp.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'rking/ag.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'jlnelson/sfcc-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'godlygeek/tabular'
 Plug 'Raimondi/delimitMate'
@@ -42,14 +41,15 @@ Plug 'kana/vim-textobj-line' " al, il
 Plug 'kana/vim-textobj-underscore' " a_, i_
 Plug 'kana/vim-textobj-user'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'kchmck/vim-coffee-script'
-Plug 'leafgarland/typescript-vim'
-Plug 'StanAngeloff/php.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoomwintab.vim'
 Plug 'jimsei/winresizer'
-Plug 'noahfrederick/vim-composer'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
 call plug#end()
 " END BUNDLES }}}
 
@@ -224,9 +224,9 @@ set wildignore+=*.stats                          " Pylint stats
 " Tabs, space and wrapping {{{
 
 set expandtab                  " spaces instead of tabs
-set tabstop=4                  " a tab = four spaces
-set shiftwidth=4               " number of spaces for auto-indent
-set softtabstop=4              " a soft-tab of four spaces
+set tabstop=2                  " a tab = four spaces
+set shiftwidth=2               " number of spaces for auto-indent
+set softtabstop=2              " a soft-tab of four spaces
 set autoindent                 " set on the auto-indent
 set nowrap
 
@@ -276,6 +276,7 @@ inoremap <right> <nop>
 " Colorscheme {{{
 
 syntax on                  " enable the syntax highlight
+autocmd BufEnter * syntax sync fromstart
 set synmaxcol=250
 set background=dark            " set a dark background
 set t_Co=256                   " 256 colors for the terminal
@@ -580,6 +581,7 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 autocmd BufNewFile,BufRead *.json set ft=javascript
 autocmd BufNewFile,BufRead *.ds set ft=javascript
 autocmd BufNewFile,BufRead *.isml set ft=html
+let g:vim_json_conceal=0
 
 " }}}
 

@@ -74,6 +74,3 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
-
-export BLUEACORN_BOOTSTRAP_DIR="/Users/johnnelson/.blueacorn/bootstrap"
-export BLUEACORN_PROJ_DIR="/Users/johnnelson/.blueacorn"
