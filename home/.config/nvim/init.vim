@@ -27,12 +27,14 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'othree/yajs.vim'
 Plug 'Shougo/vimproc.vim'
 Plug 'fatih/vim-go'
+Plug 'f-person/git-blame.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'kana/vim-textobj-entire' " ae, ie
 Plug 'kana/vim-textobj-indent' " ai, ii, aI, iI
@@ -73,6 +75,7 @@ nnoremap <Leader>eu :EnableUltiSnips<CR>
 nnoremap <Leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>f <cmd>Telescope find_files<cr>
 nnoremap <leader>g <cmd>Telescope git_files<cr>
+nnoremap <leader>gb <cmd>GitBlameToggle<cr>
 tnoremap <silent><esc> <C-\><C-n>
 nnoremap <Leader>h <C-w>s
 map <silent> <Leader>j :JunkfileOpen<CR><CR>
@@ -113,25 +116,25 @@ endif
 
 " Fugitive {{{
 
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>go :Gread<CR>
-nnoremap <Leader>gR :Gremove<CR>
-nnoremap <Leader>gm :Gmove<Space>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gB :Gbrowse<CR>
-nnoremap <Leader>gp :Git! push<CR>
-nnoremap <Leader>gP :Git! pull<CR>
-nnoremap <Leader>gi :Git!<Space>
-nnoremap <Leader>ge :Gedit<CR>
-nnoremap <Leader>gE :Gedit<Space>
+" nnoremap <Leader>gs :Gstatus<CR>
+" nnoremap <Leader>gw :Gwrite<CR>
+" nnoremap <Leader>go :Gread<CR>
+" nnoremap <Leader>gR :Gremove<CR>
+" nnoremap <Leader>gm :Gmove<Space>
+" nnoremap <Leader>gc :Gcommit<CR>
+" nnoremap <Leader>gd :Gdiff<CR>
+" nnoremap <Leader>gb :Gblame<CR>
+" nnoremap <Leader>gB :Gbrowse<CR>
+" nnoremap <Leader>gp :Git! push<CR>
+" nnoremap <Leader>gP :Git! pull<CR>
+" nnoremap <Leader>gi :Git!<Space>
+" nnoremap <Leader>ge :Gedit<CR>
+" nnoremap <Leader>gE :Gedit<Space>
 
-nnoremap <Leader>ggc :silent! Ggrep -i<Space>
+" nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
 " for the diffmode
-noremap <Leader>dq :Gdiffoff<CR>
+" noremap <Leader>dq :Gdiffoff<CR>
 
 " }}}
 
@@ -231,7 +234,7 @@ set wildignore+=*.stats                          " Pylint stats
 set expandtab                  " spaces instead of tabs
 set tabstop=2                  " a tab = four spaces
 set shiftwidth=2               " number of spaces for auto-indent
-set softtabstop=2              " a soft-tab of four spaces
+set softtabstop=2              " a soft-tab of two spaces
 set autoindent                 " set on the auto-indent
 set nowrap
 
@@ -574,6 +577,13 @@ vmap a- :Tabularize /-><CR>
 " UltiSnips {{{
 
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
+
+" }}}
+
+" Git-blame {{{
+
+let g:gitblame_enabled = 0
+lua require('gitsigns').setup()
 
 " }}}
 
