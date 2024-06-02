@@ -1,76 +1,77 @@
-#
-# Executes commands at login pre-zshrc.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+##
+## Executes commands at login pre-zshrc.
+##
+## Authors:
+##   Sorin Ionescu <sorin.ionescu@gmail.com>
+##
 
-#
-# Browser
-#
+##
+## Browser
+##
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
-fi
+#if [[ "$OSTYPE" == darwin* ]]; then
+#  export BROWSER='open'
+#fi
 
-#
-# Editors
-#
+##
+## Editors
+##
 
-export EDITOR='nvim'
-export VISUAL='nano'
-export PAGER='less'
+#export EDITOR='nvim'
+#export VISUAL='nano'
+#export PAGER='less'
 
-#
-# Language
-#
+##
+## Language
+##
 
-if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
-fi
+#if [[ -z "$LANG" ]]; then
+#  export LANG='en_US.UTF-8'
+#fi
 
-#
-# Paths
-#
+##
+## Paths
+##
 
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
+## Ensure path arrays do not contain duplicates.
+#typeset -gU cdpath fpath mailpath path
 
-# Set the the list of directories that cd searches.
-# cdpath=(
-#   $cdpath
-# )
+## Set the the list of directories that cd searches.
+## cdpath=(
+##   $cdpath
+## )
 
-# Set the list of directories that Zsh searches for programs.
-path=(
-  /usr/local/{bin,sbin}
-  $path
-)
+## Set the list of directories that Zsh searches for programs.
+#path=(
+#  /usr/local/{bin,sbin}
+#  $path
+#)
 
-#
-# Less
-#
+##
+## Less
+##
 
-# Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+## Set the default Less options.
+## Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+## Remove -X and -F (exit if the content fits on one screen) to enable it.
+#export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-# Set the Less input preprocessor.
-if (( $+commands[lesspipe.sh] )); then
-  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
-fi
+## Set the Less input preprocessor.
+#if (( $+commands[lesspipe.sh] )); then
+#  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
+#fi
 
-#
-# Temporary Files
-#
+##
+## Temporary Files
+##
 
-if [[ ! -d "$TMPDIR" ]]; then
-  export TMPDIR="/tmp/$USER"
-  mkdir -p -m 700 "$TMPDIR"
-fi
+#if [[ ! -d "$TMPDIR" ]]; then
+#  export TMPDIR="/tmp/$USER"
+#  mkdir -p -m 700 "$TMPDIR"
+#fi
 
-TMPPREFIX="${TMPDIR%/}/zsh"
-if [[ ! -d "$TMPPREFIX" ]]; then
-  mkdir -p "$TMPPREFIX"
-fi
+#TMPPREFIX="${TMPDIR%/}/zsh"
+#if [[ ! -d "$TMPPREFIX" ]]; then
+#  mkdir -p "$TMPPREFIX"
+#fi
+#eval "$(/opt/homebrew/bin/brew shellenv)"

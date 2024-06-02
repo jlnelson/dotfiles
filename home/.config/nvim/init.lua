@@ -1,3 +1,4 @@
+vim.cmd [[
 "
 "                       __   _(_)_ __ ___  _ __ ___
 "                       \ \ / / | '_ ` _ \| '__/ __|
@@ -13,11 +14,10 @@ let os = substitute(system('uname'), "\n", "", "")
 call plug#begin('~/.nvim/plugged')
 Plug 'Shougo/junkfile.vim'
 Plug 'jlnelson/vim-molokai256'
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 " Plug 'airblade/vim-gitgutter'
 Plug 'rking/ag.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/syntastic'
 Plug 'godlygeek/tabular'
@@ -28,7 +28,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 " Plug 'tpope/vim-fugitive'
-Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
+" Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'tpope/vim-characterize'
 Plug 'othree/yajs.vim'
 Plug 'Shougo/vimproc.vim'
@@ -52,10 +52,37 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'christianchiarulli/nvcode-color-schemes.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+Plug 'projekt0n/github-nvim-theme', { 'tag': 'v0.0.7' }
+Plug 'mhartington/oceanic-next'
+Plug 'navarasu/onedark.nvim'
+Plug 'mbbill/undotree'
+Plug 'theprimeagen/harpoon'
+
+" LSP Support
+Plug 'neovim/nvim-lspconfig'             " Required
+Plug 'williamboman/mason.nvim'           " Optional
+Plug 'williamboman/mason-lspconfig.nvim' " Optional
+
+" Autocompletion Engine
+Plug 'hrsh7th/nvim-cmp'         " Required
+Plug 'hrsh7th/cmp-nvim-lsp'     " Required
+Plug 'hrsh7th/cmp-buffer'       " Optional
+Plug 'hrsh7th/cmp-path'         " Optional
+Plug 'saadparwaiz1/cmp_luasnip' " Optional
+Plug 'hrsh7th/cmp-nvim-lua'     " Optional
+
+"  Snippets
+Plug 'L3MON4D3/LuaSnip'             " Required
+Plug 'rafamadriz/friendly-snippets' " Optional
+
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
 call plug#end()
 " END BUNDLES }}}
 
@@ -71,14 +98,12 @@ nnoremap <Leader>l <C-^>
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
 noremap <Leader>du :diffupdate<CR>
-nnoremap <Leader>eu :EnableUltiSnips<CR>
 nnoremap <Leader>ev :e $MYVIMRC<CR>
-nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>g <cmd>Telescope git_files<cr>
 nnoremap <leader>gb <cmd>GitBlameToggle<cr>
 tnoremap <silent><esc> <C-\><C-n>
 nnoremap <Leader>h <C-w>s
-map <silent> <Leader>j :JunkfileOpen<CR><CR>
 nnoremap <Leader>k <C-w>c
 map <Leader>p "*p
 nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
@@ -94,7 +119,6 @@ nnoremap <leader>tc :if exists("g:syntax_on") <Bar>
 	\   syntax enable <Bar>
 	\ endif <CR>
 nmap <silent><Leader>tw :call ToggleWrap()<CR>
-nnoremap <Leader>u :MundoToggle<CR>
 nnoremap <Leader>v <C-w>v
 nmap <silent> <Leader>w :update<CR>
 map <Leader>y :'<,'>w !xclip -sel clip<CR><CR>
@@ -103,8 +127,6 @@ nmap <silent><Leader>N :SyntasticToggleMode<CR>
 map <Leader>P :set invpaste<CR>
 nnoremap <Leader>z :ZoomWinTabToggle<CR>
 nnoremap <Leader>Z :qa!<CR>
-
-command! -nargs=0 -bar EnableUltiSnips call plug#load('ultisnips')
 
 " OSX keybindings {{{
 
@@ -144,7 +166,7 @@ endif
 
 " Basic options {{{
 
-scriptencoding utf-8
+" scriptencoding utf-8
 set encoding=utf-8              " setup the encoding to UTF-8
 set ls=2                        " status line always visible
 set go-=T                       " hide the toolbar
@@ -443,22 +465,7 @@ endif
 nnoremap Y y$
 
 " }}}
-"
-" Strikethrough {{{
 
-
-" modify selected text using combining diacritics
-command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')
-command! -range -nargs=0 Underline       call s:CombineSelection(<line1>, <line2>, '0332')
-command! -range -nargs=0 DoubleUnderline call s:CombineSelection(<line1>, <line2>, '0333')
-command! -range -nargs=0 Strikethrough   call s:CombineSelection(<line1>, <line2>, '0336')
-
-function! s:CombineSelection(line1, line2, cp)
-  execute 'let char = "\u'.a:cp.'"'
-  execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
-endfunction
-
-" }}}
 
 " END VIM SETUP }}}
 
@@ -574,12 +581,6 @@ vmap a- :Tabularize /-><CR>
 " vimgo {{{
 " }}}
 
-" UltiSnips {{{
-
-let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
-
-" }}}
-
 " Git-blame {{{
 
 let g:gitblame_enabled = 0
@@ -593,16 +594,7 @@ lua require('gitsigns').setup()
 
 " JSON {{{ -------------------------------------------------------------------
 
-autocmd BufNewFile,BufRead *.json set ft=javascript
-autocmd BufNewFile,BufRead *.ds set ft=javascript
-autocmd BufNewFile,BufRead *.isml set ft=html
 let g:vim_json_conceal=0
-
-" }}}
-
-" JS {{{ -------------------------------------------------------------------
-
-autocmd FileType js UltiSnipsAddFiletypes javascript_sfcc
 
 " }}}
 
@@ -613,3 +605,116 @@ autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 expandtab
 " }}}
 
 " END FILETYPES }}}
+]]
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<Leader>u", vim.cmd.UndotreeToggle)
+vim.keymap.set("n", "<leader>j", function() vim.cmd("call junkfile#open('" .. vim.fn.strftime('%Y-%m-%d-%H%M%S.') .. "')") end, opts)
+
+
+
+
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "javascript", "lua", "vim", "help", "query" },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true
+  }
+}
+
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  }
+}
+
+vim.filetype.add({
+    extension = {
+        templ = "templ",
+    },
+})
+
+local lsp = require('lsp-zero').preset('recommended');
+
+-- (Optional) Configure lua language server for neovim
+lsp.nvim_workspace()
+
+lsp.setup()
+
+local cmp = require('cmp')
+cmp.setup({
+  mapping = {
+    ['<C-y>'] = cmp.mapping.confirm({select = false}),
+  }
+})
+local cmp_select = {behavior = cmp.SelectBehaviorSelect}
+local cmp_mappings = lsp.defaults.cmp_mappings({
+  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+  ['<C-space>'] = cmp.mapping.complete(cmp_select),
+})
+
+lsp.setup_nvim_cmp({
+  mappings = cmp_mappings
+})
+
+lsp.set_preferences({
+    suggest_lsp_servers = false,
+    sign_icons = {
+        error = 'E',
+        warn = 'W',
+        hint = 'H',
+        info = 'I'
+    }
+})
+
+vim.diagnostic.config({
+    virtual_text = true,
+})
+
+vim.keymap.set({'v', 'n'}, "<leader>f", vim.lsp.buf.code_action)
+lsp.on_attach(function(client, bufnr)
+  local opts = {buffer = bufnr, remap = false}
+
+  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+end)
+
+require('customcolors')
+
+require'nvim-web-devicons'.setup {
+ -- globally enable different highlight colors per icon (default to true)
+ -- if set to false all icons will have the default icon's color
+ color_icons = true;
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
