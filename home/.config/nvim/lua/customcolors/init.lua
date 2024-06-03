@@ -1,0 +1,2 @@
+-- vim.cmd[[highlight @constant guifg=#000000]]
+-- vim.cmd[[highlight @function guifg=#000000]]
